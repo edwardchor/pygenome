@@ -20,6 +20,11 @@ class Analysor:
     INV_THRESHOLD=0
     DUP_THRESHOLD=0
 
+    DUPList=[]
+    INVList=[]
+    DELList=[]
+
+
     def __init__(self,p,seq,plate):
         para=demjson.decode(p)
 
@@ -55,11 +60,17 @@ class Analysor:
     def analyse(self):
         self.setWatershed()
 
-        # self.findDUP()
-        # self.findDEL()
+        self.findDUP()
+        self.findDEL()
         # self.findINV()
-        for each in self.distance:
-            print(self.plate[each[0]])
+
+        for each in self.DUPList:
+            print('DUP '+str(each[0])+' '+str(each[1]))
+
+        for each in self.DELList:
+            print('DEL '+str(each[0])+' '+str(each[1]))
+
+
 
     def filter(self):
 
@@ -67,13 +78,23 @@ class Analysor:
 
     def findDUP(self):
         for each in self.distance:
-            line=self.plate[each[0]]
-            print('DUP '+str(line['1pos'])+' '+str(line['2pos']))
+            if each[1]>self.DUP_THRESHOLD:
+                line=self.plate[each[0]]
+                self.DUPList.append((line['1pos'],line['2pos']))
+        if self.DUPList.__len__()>5:
+            sorted(self.DUPList,key=lambda value:abs(value[0]-value[1]))
+            self.DUPLIST=self.DUPList.__getslice__(0,4)
+
 
     def findDEL(self):
         for each in self.distance:
-            line = self.plate[each[0]]
-            print('DEL ' + str(line['1pos']) + ' ' + str(line['2pos']))
+            if each[1]<self.DEL_THRESHOLD:
+                line = self.plate[each[0]]
+                self.DELList.append((line['1pos'],line['2pos']))
+
+            if self.DELList.__len__() > 5:
+                sorted(self.DUPList, key=lambda value: abs(value[0] - value[1]))
+                self.DELList=self.DELList.__getslice__(self.DELList.__len__()-5,self.DELList.__len__()-1)
 
     def findINV(self):
         return ' '

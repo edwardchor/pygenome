@@ -1,0 +1,10 @@
+{
+    "name": "alt",
+    "sv_min_length": 200,
+    "read_length": 76,
+    "error_rate": 0.001,
+    "coverage": 500,
+    "sv_max_length": 500,
+    "pair_distance": 300,
+    "standard_deviation": 10
+}

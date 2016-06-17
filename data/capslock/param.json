@@ -1,0 +1,10 @@
+{
+    "coverage": 15,
+    "read_length": 76,
+    "pair_distance": 300,
+    "name": "capslock",
+    "standard_deviation": 10,
+    "sv_min_length": 200,
+    "sv_max_length": 500,
+    "error_rate": 0.01
+}

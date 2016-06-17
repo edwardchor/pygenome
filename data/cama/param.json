@@ -1,0 +1,10 @@
+{
+    "sv_min_length": 200,
+    "read_length": 76,
+    "standard_deviation": 10,
+    "name": "cama",
+    "error_rate": 0,
+    "pair_distance": 300,
+    "sv_max_length": 500,
+    "coverage": 15
+}

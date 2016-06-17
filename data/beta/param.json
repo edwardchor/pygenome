@@ -1,0 +1,10 @@
+{
+    "sv_min_length": 200,
+    "coverage": 30,
+    "sv_max_length": 500,
+    "name": "beta",
+    "read_length": 76,
+    "error_rate": 0,
+    "pair_distance": 300,
+    "standard_deviation": 10
+}
