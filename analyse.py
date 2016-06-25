@@ -44,7 +44,8 @@ class Analysor:
         self.STANDARD_DEVIATION = para['standard_deviation']
         self.READ_LENGTH = para['read_length']
         self.LEN_OF_SEQ=para['len_of_seq']
-
+        self.DIR=para['dir']
+        self.NAME=para['name']
 
 
     def calcDistance(self,flag):
@@ -63,6 +64,7 @@ class Analysor:
         self.DUP_THRESHOLD=self.SV_MIN_LENGTH+(self.SV_MAX_LENGTH-self.SV_MIN_LENGTH)/6
 
     def analyse(self):
+        res=open(self.DIR+self.NAME+'.res','w')
         self.setWatershed()
 
         self.findDUP()
@@ -74,13 +76,22 @@ class Analysor:
         self.INVList=self.merge(self.INVList,self.INV_TAG)
 
         for each in self.DUPList:
-            print('DUP '+str(each[0])+' '+str(each[1]))
+            line='DUP '+str(each[0])+' '+str(each[1])
+            res.write(line+'\n')
+            print(line)
+
 
         for each in self.DELList:
-            print('DEL '+str(each[0])+' '+str(each[1]))
+            line='DEL '+str(each[0])+' '+str(each[1])
+            res.write(line+'\n')
+            print(line)
 
         for each in self.INVList:
-            print('INV ' + str(each[0]) + ' ' + str(each[1]))
+            line='INV ' + str(each[0]) + ' ' + str(each[1])
+            res.write(line+'\n')
+            print(line)
+
+        res.close()
 
 
 
@@ -102,7 +113,7 @@ class Analysor:
                     low+=1
                     resH += 1
                 else:
-                    res[resH]=((list[low][0]+res[resH][0])/2,(list[low][1]+res[resH][1])/2)
+                    res[resH]=(min(list[low][0],res[resH][0]),max(list[low][1],res[resH][1]))
                     low+=1
 
 
@@ -113,8 +124,7 @@ class Analysor:
                     low += 1
                     resH += 1
                 else:
-                    res[resH] = ((min(list[low][0], list[low][1]) + min(res[resH][0], res[resH][1])) / 2,
-                                 (max(list[low][0], list[low][1]) + max(res[resH][0], res[resH][1])) / 2)
+                    res[resH] = (max(list[low][0],res[resH][0]),min(list[low][1],res[resH][1]))
                     low += 1
 
 
@@ -125,20 +135,19 @@ class Analysor:
                     low += 1
                     resH += 1
                 else:
-                    res[resH] = ((min(list[low][0], list[low][1]) + min(res[resH][0], res[resH][1])) / 2,
-                                 (max(list[low][0], list[low][1]) + max(res[resH][0], res[resH][1])) / 2)
+                    res[resH] = (min(list[low][0],res[resH][0]),max(list[low][1],res[resH][1]))
                     low += 1
 
         return res
 
     def findDUP(self):
         for each in self.distance:
-            if each[1]>0:
+            if each[1]>-self.READ_LENGTH:
                 line=self.plate[each[0]]
                 former=min(line['1pos'],line['2pos'])
                 latter=max(line['1pos'],line['2pos'])
                 div=latter-former
-                self.DUPList.append((former-div/2,latter+div/2))
+                self.DUPList.append((former-div/2,latter))
         return ''
 
 
@@ -148,10 +157,11 @@ class Analysor:
                 line = self.plate[each[0]]
                 self.DELList.append((min((line['1pos'],line['2pos'])),max((line['1pos'],line['2pos']))))
 
-            if self.DELList.__len__() > 5:
-                sorted(self.DUPList, key=lambda value: abs(value[0] - value[1]))
-                self.DELList=self.DELList.__getslice__(self.DELList.__len__()-5,self.DELList.__len__()-1)
+            # if self.DELList.__len__() > 5:
+            #     sorted(self.DUPList, key=lambda value: abs(value[0] - value[1]))
+            #     self.DELList=self.DELList.__getslice__(self.DELList.__len__()-5,self.DELList.__len__()-1)
         return ''
+
 
     def findINV(self):
         for each in self.invplate:

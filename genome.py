@@ -5,7 +5,7 @@ from graph import Graph
 from reverse_complementary import reverse_complementary
 from process import process
 
-dir='./data/alpha/'
+dir='./data/capslock/'
 
 s= open(dir+'seq.txt')
 
@@ -16,6 +16,7 @@ len_of_seq=seq.__len__()
 
 para=demjson.decode_file(dir+'./param.json',None)
 para['len_of_seq']=len_of_seq
+para['dir']=dir
 
 with open(dir+'1.txt') as f1:
     with open(dir+'2.txt') as f2:
