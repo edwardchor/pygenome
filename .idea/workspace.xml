@@ -1,17 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a20e34ec-ce8c-4f50-8913-95047576f4c3" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/alice/result.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/analyse.py" afterPath="$PROJECT_DIR$/analyse.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/alpha/res.txt" afterPath="$PROJECT_DIR$/data/alpha/res.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/alpha/result.txt" afterPath="$PROJECT_DIR$/data/alpha/result.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/alt/result.txt" afterPath="$PROJECT_DIR$/data/alt/result.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/genome.py" afterPath="$PROJECT_DIR$/genome.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/judge.py" afterPath="$PROJECT_DIR$/judge.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/process.py" afterPath="$PROJECT_DIR$/process.py" />
-    </list>
+    <list default="true" id="a20e34ec-ce8c-4f50-8913-95047576f4c3" name="Default" comment="" />
     <ignored path="PyGenome.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
