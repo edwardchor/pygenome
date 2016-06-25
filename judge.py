@@ -7,9 +7,9 @@ POSITIVE_CNT_LIMIT = 3
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-r', '--reference', type=str, required=True,
-                    help='The reference result file.')
+                    help='The reference result.txt file.')
 parser.add_argument('-f', '--file', type=str, required=True,
-                    help='The user result file.')
+                    help='The user result.txt file.')
 args = parser.parse_args()
 
 ref = []
@@ -38,7 +38,7 @@ with open(args.file, 'r') as ifile:
             continue
         t = t.split()
         if len(t) != 3:
-            print("Invalid user result file.")
+            print("Invalid user result.txt file.")
             raise Exception
 
         for i in ref:

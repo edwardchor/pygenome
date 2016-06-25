@@ -1,0 +1,10 @@
+{
+    "error_rate": 0.01,
+    "read_length": 76,
+    "standard_deviation": 10,
+    "sv_min_length": 200,
+    "pair_distance": 300,
+    "coverage": 15,
+    "sv_max_length": 500,
+    "name": "camelia"
+}

@@ -1,42 +1,41 @@
 import ahocorasick
 import demjson
+
+from graph import Graph
 from reverse_complementary import reverse_complementary
 from process import process
 
-dir='./data/alpha/'
+dir='./data/cama/'
 
-f1= open(dir+'1.txt')
-f2= open(dir+'2.txt')
 s= open(dir+'seq.txt')
 
-seq=s.readline().replace('\n', '')
-seq=seq
 
-num_of_pairs=f1.__sizeof__()
+seq=s.readline().replace('\n', '')
+
 len_of_seq=seq.__len__()
 
 para=demjson.decode_file(dir+'./param.json',None)
-para['num_of_pairs']=num_of_pairs
 para['len_of_seq']=len_of_seq
 
+with open(dir+'1.txt') as f1:
+    with open(dir+'2.txt') as f2:
+        process(f1, f2, seq,demjson.encode(para))
 
-# for value in para:
-#     print(value,para[value])
-
-process(f1, f2, seq,demjson.encode(para))
-
-
+# connections = [(1, 'B'), (3, 'C'), (f1, 'D'),
+#                ('2', 'D'), ('E', 'F'), ('F', 'C')]
+# g=Graph(connections,False)
+# print(g._graph)
 #
 #
 # T=ahocorasick.Automaton()
 #
 # index=0
-# BIAS=76
+# BIAS=50
 #
 # f1lines=f1.readlines()
 # f2lines=f2.readlines()
 #
-# while(index<num_of_pairs):
+# while(index<f1lines.__len__()):
 #     l=f1lines[index][0:BIAS-1].replace('\n','')
 #
 #     m=f2lines[index][0:BIAS-1].replace('\n','')
@@ -50,6 +49,15 @@ process(f1, f2, seq,demjson.encode(para))
 #
 # T.make_automaton()
 #
+# res = open(dir + 'res.txt')
+# result.txt = res.readlines()
+#
+#
+# each = result.txt[1].split(' ')
+# seq=seq[int(each[1]) -150:int(each[2].replace('\r\n', ''))+150]
+# print(each)
+# print(seq)
+#
 # Titer=T.iter(seq)
 # plate={}
 #
@@ -62,20 +70,54 @@ process(f1, f2, seq,demjson.encode(para))
 #         plate[value[0]]={value[2]:value[1],str(value[2])+'pos':key}
 #
 # dis={}
-#
-# for key,value in plate.items():
-#     #print(key,value)
-#     #plate[key]['dis']=abs(plate[key][1]-plate[key][3])
-#     if value.has_key('olpos') and value.has_key('rmpos'):
-#         dis[key]=abs(value['olpos']-value['rmpos'])-BIAS
-#     elif value.has_key('rlpos') and value.has_key('ompos'):
-#         dis[key] = abs(value['rlpos'] - value['ompos']) - BIAS
-#
+# #
+# # for key,value in plate.items():
+# #     #print(key,value)
+# #     #plate[key]['dis']=abs(plate[key][1]-plate[key][3])
+# #     if value.has_key('olpos') and value.has_key('rmpos'):
+# #         dis[key]=abs(value['olpos']-value['rmpos'])-BIAS
+# #         blankCount=min(value['rmpos'],value['olpos'])-BIAS
+# #         s=''
+# #         while(blankCount>-1):
+# #             s+=' '
+# #             blankCount-=1
+# #         if min(value['rmpos'],value['olpos'])==value['rmpos']:
+# #             s+=value['rm']
+# #         else:
+# #             s+=value['ol']
+# #
+# #         blankCount=0
+# #         while(blankCount<max(value['rmpos'],value['olpos'])-BIAS):
+# #             s+=' '
+# #             blankCount+=1
+# #         if max(value['rmpos'], value['olpos']) == value['rmpos']:
+# #             s += value['rm']
+# #         else:
+# #             s += value['ol']
+# #         print(s)
+# #
+# #     elif value.has_key('rlpos') and value.has_key('ompos'):
+# #         dis[key] = abs(value['rlpos'] - value['ompos']) - BIAS
+# #         blankCount = min(value['rlpos'], value['ompos']) - BIAS
+# #         s = ''
+# #         while (blankCount > -1):
+# #             s += ' '
+# #             blankCount -= 1
+# #         if min(value['rlpos'], value['ompos']) == value['ompos']:
+# #             s += value['rl']
+# #         else:
+# #             s += value['om']
+# #
+# #         blankCount = 0
+# #         while (blankCount < max(value['rlpos'], value['ompos']) - BIAS):
+# #             s += ' '
+# #             blankCount += 1
+# #         if max(value['rlpos'], value['ompos']) == value['rlpos']:
+# #             s += value['rl']
+# #         else:
+# #             s += value['om']
+# #         print(s)
 # sorted(dis,key= lambda value:value)
-#
-#
-# print(max(dis.values()))
-# print(min(dis.values()))
 #
 # for item in dis:
 #     #print(item,dis[item])

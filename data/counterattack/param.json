@@ -1,0 +1,10 @@
+{
+    "error_rate": 0.01,
+    "coverage": 5,
+    "standard_deviation": 10,
+    "sv_max_length": 500,
+    "read_length": 76,
+    "name": "counterattack",
+    "sv_min_length": 200,
+    "pair_distance": 300
+}
