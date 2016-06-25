@@ -5,7 +5,7 @@ from graph import Graph
 from reverse_complementary import reverse_complementary
 from process import process
 
-dir='./data/cama/'
+dir='./data/alpha/'
 
 s= open(dir+'seq.txt')
 

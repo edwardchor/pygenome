@@ -7,9 +7,9 @@ POSITIVE_CNT_LIMIT = 3
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-r', '--reference', type=str, required=True,
-                    help='The reference result.txt file.')
+                    help='The reference result file.')
 parser.add_argument('-f', '--file', type=str, required=True,
-                    help='The user result.txt file.')
+                    help='The user result file.')
 args = parser.parse_args()
 
 ref = []
@@ -23,7 +23,7 @@ with open(args.reference, 'r') as ifile:
             continue
         t = t.split()
         if len(t) != 3:
-            print("Invalid reference file.")
+            print("Invalid reference file.", file=sys.stderr)
             raise Exception
 
         t.append(0)
@@ -38,7 +38,7 @@ with open(args.file, 'r') as ifile:
             continue
         t = t.split()
         if len(t) != 3:
-            print("Invalid user result.txt file.")
+            print("Invalid user result file.", file=sys.stderr)
             raise Exception
 
         for i in ref:
@@ -68,7 +68,7 @@ if positive_cnt > true_cnt * POSITIVE_CNT_LIMIT:
     print("WARNING: Too many recalls!!!")
     print("WARNING: Too many recalls!!!")
     print("WARNING: Too many recalls!!!")
-print("LastJudgement: Finished.")
+print("LastJudgement: Finished.", file=sys.stderr)
 
 #for i in ref:
 #    print("{0} {1} {2} {3}".format(i[0], i[1], i[2], i[3]!=0))

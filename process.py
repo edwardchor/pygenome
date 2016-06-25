@@ -89,8 +89,7 @@ def process(f1,f2,seq,para):
             # print(plate0[value[1]],value)
             # print(plate0[value[1]])
             if plate0[value[1]].has_key(value[2]):
-                print('there exists a third item!')
-                print(plate0[value[1]],value)
+                continue
             else:
                 plate0[value[1]][value[2]]=value[0]
                 plate0[value[1]][str(value[2])+'pos']=pos
@@ -111,8 +110,7 @@ def process(f1,f2,seq,para):
             # print(plate1[value[1]],value)
             # print(plate1[value[1]])
             if plate1[value[1]].has_key(value[2]):
-                print('there exists a third item!')
-                print(plate1[value[1]],value)
+                continue
             else:
                 plate1[value[1]][value[2]]=value[0]
                 plate1[value[1]][str(value[2])+'pos']=pos
@@ -132,8 +130,7 @@ def process(f1,f2,seq,para):
             # print(plate2[value[1]],value)
             # print(plate2[value[1]])
             if plate2[value[1]].has_key(value[2]):
-                print('there exists a third item!')
-                print(plate2[value[1]], value)
+                continue
             else:
                 plate2[value[1]][value[2]]=value[0]
                 plate2[value[1]][str(value[2])+'pos']=pos
@@ -152,8 +149,7 @@ def process(f1,f2,seq,para):
                 # print(plate2[value[1]],value)
                 # print(plate2[value[1]])
                 if plate3[value[1]].has_key(value[2]):
-                    print('there exists a third item!')
-                    # print(plate3[value[1]], value)
+                    continue
                 else:
                     plate3[value[1]][value[2]] = value[0]
                     plate3[value[1]][str(value[2]) + 'pos'] = pos
@@ -171,7 +167,7 @@ def process(f1,f2,seq,para):
     for key,value in plate0.iteritems():
         if value.has_key('1pos') and value.has_key('2pos'):
             if INV_PLATE.has_key(key):
-                print("Conflict!")
+                continue
             else:
                 INV_PLATE[key]=value
                 INV_PLATE[key]['dis']=value['1pos']-value['2pos']-2*BIAS
@@ -180,7 +176,7 @@ def process(f1,f2,seq,para):
     for key,value in plate1.iteritems():
         if value.has_key('1pos') and value.has_key('2pos'):
             if PLATE.has_key(key):
-                print("Conflict!")
+                continue
             else:
                 PLATE[key]=value
                 PLATE[key]['dis']=value['1pos']-value['2pos']-2*BIAS
@@ -189,7 +185,7 @@ def process(f1,f2,seq,para):
     for key, value in plate2.iteritems():
         if value.has_key('1pos') and value.has_key('2pos'):
             if PLATE.has_key(key):
-                print("Conflict!")
+                continue
             else:
                 PLATE[key] = value
                 PLATE[key]['dis'] = value['2pos'] - value['1pos']-2*BIAS
@@ -198,7 +194,7 @@ def process(f1,f2,seq,para):
     for key, value in plate3.iteritems():
         if value.has_key('1pos') and value.has_key('2pos'):
             if INV_PLATE.has_key(key):
-                print("Conflict!")
+                continue
             else:
                 INV_PLATE[key] = value
                 INV_PLATE[key]['dis'] = value['2pos'] - value['1pos'] - 2 * BIAS
@@ -212,7 +208,6 @@ def process(f1,f2,seq,para):
     #     print(INV_PLATE[each])
 
     Ana=Analysor(para,seq,PLATE,INV_PLATE)
-
     Ana.calcDistance(False)
     Ana.analyse()
     # for each in PLATE:

@@ -58,7 +58,7 @@ class Analysor:
                 print(each)
 
     def setWatershed(self):
-        self.DEL_THRESHOLD=self.SV_MIN_LENGTH+(self.SV_MAX_LENGTH-self.SV_MIN_LENGTH)*5/6
+        self.DEL_THRESHOLD=self.PAIR_DISTANCE+(self.SV_MAX_LENGTH-self.SV_MIN_LENGTH)
         self.INV_THRESHOLD=self.SV_MIN_LENGTH+(self.SV_MAX_LENGTH-self.SV_MIN_LENGTH)*3/6
         self.DUP_THRESHOLD=self.SV_MIN_LENGTH+(self.SV_MAX_LENGTH-self.SV_MIN_LENGTH)/6
 
@@ -138,13 +138,13 @@ class Analysor:
                 former=min(line['1pos'],line['2pos'])
                 latter=max(line['1pos'],line['2pos'])
                 div=latter-former
-                self.DUPList.append((former-div,latter+div))
+                self.DUPList.append((former-div/2,latter+div/2))
         return ''
 
 
     def findDEL(self):
         for each in self.distance:
-            if -each[1]>self.DEL_THRESHOLD:
+            if abs(each[1])>self.DEL_THRESHOLD:
                 line = self.plate[each[0]]
                 self.DELList.append((min((line['1pos'],line['2pos'])),max((line['1pos'],line['2pos']))))
 
