@@ -1,11 +1,12 @@
 import ahocorasick
 import demjson
+import sys
 
 from graph import Graph
 from reverse_complementary import reverse_complementary
 from process import process
 
-dir='./data/capslock/'
+dir='./data/'+sys.argv[1]+'/'
 
 s= open(dir+'seq.txt')
 
@@ -50,14 +51,6 @@ with open(dir+'1.txt') as f1:
 #
 # T.make_automaton()
 #
-# res = open(dir + 'res.txt')
-# result.txt = res.readlines()
-#
-#
-# each = result.txt[1].split(' ')
-# seq=seq[int(each[1]) -150:int(each[2].replace('\r\n', ''))+150]
-# print(each)
-# print(seq)
 #
 # Titer=T.iter(seq)
 # plate={}

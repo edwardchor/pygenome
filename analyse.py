@@ -29,6 +29,12 @@ class Analysor:
     INVList=[]
     DELList=[]
 
+    INV_FIND_BIAS_FACTOR=(float,float)
+    INV_MERGE_BIAS_FACTOR=(float,float)
+    DUP_FIND_BIAS_FACTOR=(float,float)
+    DUP_MERGE_BIAS_FACTOR=(float,float)
+    DEL_FIND_BIAS_FACTOR=(float,float)
+    DEL_MERGE_BIAS_FACTOR=(float,float)
 
     def __init__(self,p,seq,plate,invplate):
         para=demjson.decode(p)
@@ -63,9 +69,36 @@ class Analysor:
         self.INV_THRESHOLD=self.SV_MIN_LENGTH+(self.SV_MAX_LENGTH-self.SV_MIN_LENGTH)*3/6
         self.DUP_THRESHOLD=self.SV_MIN_LENGTH+(self.SV_MAX_LENGTH-self.SV_MIN_LENGTH)/6
 
+    def setFactor(self):
+        if self.ERROR_RATE == 0 or self.ERROR_RATE==0.0:
+            self.INV_FIND_BIAS_FACTOR =(5.0/12.0,5.0/12.0)
+            self.DEL_FIND_BIAS_FACTOR = (0.0,0.0)
+            self.DUP_FIND_BIAS_FACTOR = (-2.9/12,0.0)
+
+            self.INV_MERGE_BIAS_FACTOR = (0.0,0.0)
+            self.DEL_MERGE_BIAS_FACTOR = (0.0,0.0)
+            self.DUP_MERGE_BIAS_FACTOR = (0.0,0.0)
+
+        elif self.ERROR_RATE == 0.001:  # bigger factor
+
+            self.INV_FIND_BIAS_FACTOR = (5.4/12.0, 9.05/12.0)
+            self.DEL_FIND_BIAS_FACTOR = (0.01/48, 1.0/12)
+            self.DUP_FIND_BIAS_FACTOR = (-4.5/12.0, 0.0)
+
+            self.INV_MERGE_BIAS_FACTOR = (0.0, 0.0)
+            self.DEL_MERGE_BIAS_FACTOR = (0.0, 0.0)
+            self.DUP_MERGE_BIAS_FACTOR = (0.0, 0.0)
+
+        else:
+            return ''
+
+
+
     def analyse(self):
         res=open(self.DIR+self.NAME+'.res','w')
+
         self.setWatershed()
+        self.setFactor()
 
         self.findDUP()
         self.findDEL()
@@ -128,7 +161,7 @@ class Analysor:
                     low += 1
 
 
-        else:
+        elif kind==self.INV_TAG:
             while (low < high):
                 if abs(list[low][0] - res[resH][0]) > self.PAIR_DISTANCE and abs(list[low][1] - res[resH][1]) > self.PAIR_DISTANCE:
                     res.append(list[low])
@@ -142,12 +175,14 @@ class Analysor:
 
     def findDUP(self):
         for each in self.distance:
-            if each[1]>-self.READ_LENGTH:
+            if each[1]>-self.READ_LENGTH*3.0/2.0:
                 line=self.plate[each[0]]
                 former=min(line['1pos'],line['2pos'])
                 latter=max(line['1pos'],line['2pos'])
                 div=latter-former
-                self.DUPList.append((former-div/2,latter))
+                fbias = div * self.DUP_FIND_BIAS_FACTOR[0]
+                lbias = div * self.DUP_FIND_BIAS_FACTOR[1]
+                self.DUPList.append((int(former + fbias), int(latter - lbias)))
         return ''
 
 
@@ -155,7 +190,12 @@ class Analysor:
         for each in self.distance:
             if abs(each[1])>self.DEL_THRESHOLD:
                 line = self.plate[each[0]]
-                self.DELList.append((min((line['1pos'],line['2pos'])),max((line['1pos'],line['2pos']))))
+                former = min(line['1pos'], line['2pos'])
+                latter = max(line['1pos'], line['2pos'])
+                div = latter - former
+                fbias = div * self.DEL_FIND_BIAS_FACTOR[0]
+                lbias = div * self.DEL_FIND_BIAS_FACTOR[1]
+                self.DELList.append((int(former+fbias), int(latter-lbias)))
 
             # if self.DELList.__len__() > 5:
             #     sorted(self.DUPList, key=lambda value: abs(value[0] - value[1]))
@@ -166,7 +206,12 @@ class Analysor:
     def findINV(self):
         for each in self.invplate:
             line = self.invplate[each]
-            self.INVList.append((min((line['1pos'], line['2pos'])), max((line['1pos'], line['2pos']))))
+            former = min(line['1pos'], line['2pos'])
+            latter = max(line['1pos'], line['2pos'])
+            div = latter - former
+            fbias=div*self.INV_FIND_BIAS_FACTOR[0]
+            lbias=div*self.INV_FIND_BIAS_FACTOR[1]
+            self.INVList.append((int(former+fbias), int(latter-lbias)))
         return ' '
 
 
